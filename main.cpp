@@ -1,11 +1,12 @@
 #include <iostream>
 #include <vector>
+#include <memory>
 #include "UniformGenerator/EcuyerCombined.h"
 #include "ContinuousGenerator/Normal.h"
 #include "DiscreteGenerator/Poisson.h"
 #include "ContinuousGenerator/Exponential.h"
 
-
+using namespace std;
 #ifdef TEST
 class ConstantGenerator : public RandomGenerator {
     public:
@@ -17,14 +18,15 @@ class ConstantGenerator : public RandomGenerator {
 #endif
 
 int main() {
-    double seed1=1383377383;
-    double seed2=783876393;
-    double modulus1=2147483563;
-    double modulus2=2147483399;
-    double multiplier1=40014;
-    double multiplier2=40692;
+    size_t seed1=1383377383;
+    size_t seed2=783876393;
+    size_t modulus1=2147483563;
+    size_t modulus2=2147483399;
+    size_t multiplier1=40014;
+    size_t multiplier2=40692;
 
     
+    shared_ptr<RandomGenerator> gen = make_shared<LinearCongruential> (seed1, multiplier1, 1000, modulus1);
     EcuyerCombined EcuyerGenerator(seed1, multiplier1,modulus1,
                                     seed2, multiplier2,modulus2);
     Normal n1(EcuyerGenerator, NormalAlgo::boxMuller);
@@ -35,7 +37,7 @@ int main() {
     Exponential e1(EcuyerGenerator, 0.5, ExpoAlgo::rejection);
     Exponential e2(EcuyerGenerator, 0.5, ExpoAlgo::inverse);
 
-
+    gen ->moments(1000);
     n1.moments(100000);
     n2.moments(100000);
     n3.moments(100000);
@@ -43,5 +45,4 @@ int main() {
     p2.moments(100000);
     e1.moments(100000);
     e2.moments(100000);
-
     }

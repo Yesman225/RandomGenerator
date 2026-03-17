@@ -5,16 +5,17 @@
 
 class LinearCongruential : public PseudoGenerator {
     public:
-        explicit LinearCongruential(double seed, double multiplier, double increment, double modulus):
+            LinearCongruential();
+            LinearCongruential(size_t seed, size_t multiplier, size_t  increment, size_t modulus):
             PseudoGenerator(seed),
             multiplier_(multiplier), increment_(increment), modulus_(modulus){}
             double generate() override;
             double generateRaw();
             double getModulus() const {return modulus_;};
     private:
-        double multiplier_;
-        double increment_;
-        double modulus_;
+        size_t multiplier_;
+        size_t increment_;
+        size_t modulus_;
 
 };
 #endif

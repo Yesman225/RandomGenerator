@@ -5,11 +5,12 @@
 
 class PseudoGenerator : public UniformGenerator {
     public:
-        explicit PseudoGenerator(double seed): seed_(seed){}
-        void setSeed(double seed) { seed_ = seed;}
+        PseudoGenerator();
+        PseudoGenerator(size_t seed): seed_(seed){}
+        void setSeed(size_t seed) { seed_ = seed;}
         double getSeed() const{return seed_;}
     
     protected:
-        double seed_;
+        size_t seed_;
 };
 #endif
