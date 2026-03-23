@@ -6,9 +6,7 @@
 class LinearCongruential : public PseudoGenerator {
     public:
             LinearCongruential();
-            LinearCongruential(size_t seed, size_t multiplier, size_t  increment, size_t modulus):
-            PseudoGenerator(seed),
-            multiplier_(multiplier), increment_(increment), modulus_(modulus){}
+            LinearCongruential(mylong seed, mylong multiplier, mylong  increment, mylong modulus);
             double generate() override;
             double generateRaw();
             double getModulus() const {return modulus_;};

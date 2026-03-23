@@ -1,6 +1,7 @@
 #ifndef RANDOMGENERATOR_H
 #define RANDOMGENERATOR_H
 #include <vector>
+typedef unsigned long long mylong;
 
 class RandomGenerator {
     public :

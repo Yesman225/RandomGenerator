@@ -3,7 +3,6 @@
 #include <vector>
 #include <iostream>
 
-
 std::vector<double> RandomGenerator::moments(unsigned long nbSim, bool print)
 {
     if (nbSim == 0) {
@@ -28,5 +27,4 @@ std::vector<double> RandomGenerator::moments(unsigned long nbSim, bool print)
     }
     return v;
 }
-
 

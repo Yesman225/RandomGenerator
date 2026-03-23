@@ -9,8 +9,8 @@
 
 class FiniteSet : public DiscreteGenerator {
     public:
-        FiniteSet(UniformGenerator& u, const std::vector<double>& values, 
-                    const std::vector<double>& probas); 
+        FiniteSet(UniformGenerator& u, std::vector<double>& probas); 
+        FiniteSet(UniformGenerator* u, std::vector<double>& probas);
 
         double generate() override;
     

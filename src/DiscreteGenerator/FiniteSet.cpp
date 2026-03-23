@@ -4,23 +4,17 @@
 #include <cstddef>
 
 
-FiniteSet::FiniteSet(UniformGenerator& u, const std::vector<double>& values, 
-                    const std::vector<double>& probas): 
-        u_(u), values_(values), probas_(probas) {
-        
-            if (values.empty() || values.size() != probas.size()) {
-            throw std::invalid_argument("values/probas size mismatch or empty");
-        }
-       
-            if(probas_[0]!=0) throw std::invalid_argument("first proba should be 0");
-        
+FiniteSet::FiniteSet(UniformGenerator* u, std::vector<double>& probas):
+        FiniteSet(*u, probas) {}
+
+FiniteSet::FiniteSet(UniformGenerator& u, std::vector<double>& probas): 
+        u_(u), probas_(probas) {
+
         double sum = 0.0;
-        cumProbas_.reserve(probas_.size());
         
         for (double p : probas_) {
             if (p<0.0 || p>1.0) throw std::invalid_argument("probability should be in [0,1]");
             sum += p;
-            cumProbas_.push_back(sum);
         }
         
         if(std::abs(sum-1.0)>1e-12) {
@@ -32,8 +26,26 @@ FiniteSet::FiniteSet(UniformGenerator& u, const std::vector<double>& values,
 
 double FiniteSet::generate() {
     double u = u_.generate();
-    for (std::size_t i = 0; i < cumProbas_.size(); ++i) {
-        if (u < cumProbas_[i]) return values_[i];
-    }
-    return values_.back(); // fallback for rounding
+    double result = 0.;
+	double Pkminus1 = 0;
+	double Pk = 0;
+
+	mylong K = 1;
+
+	for (mylong i = 0; i < probas_.size(); ++i)
+	{
+		Pk += probas_[i];
+		if (Pkminus1 <= u && u < Pk)
+		{
+			result = K;
+			break;
+		}
+		else
+		{
+			Pkminus1 = Pk;
+		}
+		++K;
+	}
+	result = K;
+	return result;
 }
